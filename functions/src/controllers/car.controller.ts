@@ -1,23 +1,22 @@
 import { Request,Response } from 'firebase-functions';
 
-import {Laptop} from '../models/laptop.model'
+import {Car} from '../models/car.model'
 
 export
-const saveLaptop = async (req: Request,res: Response)=>{
+const saveCar = async (req: Request,res: Response)=>{
     const body = req.body
     ///TODO: change FirestoreModel to use the class name as collection name
-    const model = new Laptop(
-        body.title,
-        body.description,
+    const car = new Car(
         body.brand,
         body.model,
+        body.year,
     )
     try{
-        const id = await model.save()
+        const id = await car.save()
         console.log(id)
         res.status(201).json({
             'data':id,
-            'msg':'Laptop Added Successfully',
+            'msg':'Car Added Successfully',
         })
     }catch(e){
         console.log(e)
@@ -27,14 +26,14 @@ const saveLaptop = async (req: Request,res: Response)=>{
     }
 }
 export
-const getLaptops = async (req: Request,res: Response)=>{
+const getCars = async (req: Request,res: Response)=>{
     ///TODO: change FirestoreModel to use the class name as collection name
 
     try{
-        const laptops = await Laptop.get()
+        const cars = await Car.get()
         res.status(200).json({
             'msg':'OK',
-            'data':laptops
+            'data':cars
         })
     }catch(e){
         console.log(e)
@@ -44,22 +43,20 @@ const getLaptops = async (req: Request,res: Response)=>{
     }
 }
 export
-const editLaptop = async (req: Request,res: Response)=>{
+const editCar = async (req: Request,res: Response)=>{
     ///TODO: change FirestoreModel to use the class name as collection name
     /// url/{id}
     const body = req.body
-    const model = new Laptop(
-        body.title,
-        body.description,
+    const car = new Car(
         body.brand,
         body.model,
+        body.year,
         req.params[0].substr(1)
     )
     try{
-        const writeResult = await model.edit()
-        console.log(writeResult)
+        await car.edit()
         res.status(200).json({
-            'msg':'Laptop Edited Successfully',
+            'msg':'Car Edited Successfully',
         })
     }catch(e){
         console.log(e)
@@ -69,12 +66,11 @@ const editLaptop = async (req: Request,res: Response)=>{
     }
 }
 export
-const deleteLaptop = async (req: Request,res: Response)=>{
+const deleteCar = async (req: Request,res: Response)=>{
     ///TODO: change FirestoreModel to use the class name as collection name
     /// url/{id}
     try{
-        const writeResult = await Laptop.delete(req.params[0].substr(1))
-        console.log(writeResult)
+        await Car.delete(req.params[0].substr(1))
         res.status(200).json({
             'msg':'Laptop Deleted Successfully',
         })

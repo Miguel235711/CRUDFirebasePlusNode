@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
-import {api} from './laptop';
-
+import * as laptop from './routes/laptop.route';
+import * as car from './routes/car.route';
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -21,5 +21,5 @@ import {api} from './laptop';
 */
 admin.initializeApp()
 
-exports.laptop = api
-
+exports.laptop = laptop.api
+exports.car = car.api
